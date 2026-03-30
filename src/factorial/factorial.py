@@ -23,16 +23,28 @@ def factorial(num):
         return fact 
 
 def parse_entrada(s):
-    """Acepta un entero o un rango 'desde-hasta' (ej. 4-8)."""
+    """Entero, rango a-b, '-hasta' (1..N), o 'desde-' (N..60). Valores siempre vía int()."""
     s = s.strip()
     m = re.match(r"^(\d+)-(\d+)$", s)
     if m:
-        a, b = int(m.group(1)), int(m.group(2))
+        a = int(m.group(1))
+        b = int(m.group(2))
         return "rango", min(a, b), max(a, b)
-    return "uno", int(s)
+    m = re.match(r"^-(\d+)$", s)
+    if m:
+        hasta = int(m.group(1))
+        return "rango", 1, hasta
+    m = re.match(r"^(\d+)-$", s)
+    if m:
+        desde = int(m.group(1))
+        return "rango", desde, 60
+    n = int(s)
+    return "uno", n
 
 if len(sys.argv) < 2:
-   raw = input("Ingrese un número o un rango desde-hasta (ej. 4-8): ")
+   raw = input(
+       "Ingrese número, rango a-b, -hasta (1..N), o desde- (N..60), ej. -10 o 50-: "
+   )
 else:
    raw = sys.argv[1]
 
