@@ -1,0 +1,12 @@
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+# Equivalente a select/ignore en [tool.ruff] (Ruff >= 0.2 usa la subseccion lint).
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = []

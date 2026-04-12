@@ -1,0 +1,38 @@
+Salida de: py -3 -m pylint rpn.py (desde src/chatGPT/)
+Fecha de referencia: antes de correcciones de estilo y refactor.
+
+************* Module rpn
+rpn.py:31:0: C0301: Line too long (115/100) (line-too-long)
+rpn.py:120:0: C0301: Line too long (112/100) (line-too-long)
+rpn.py:15:0: C0410: Multiple imports on one line (math, re, sys) (multiple-imports)
+rpn.py:23:0: C0115: Missing class docstring (missing-class-docstring)
+rpn.py:27:19: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:29:17: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:31:63: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:55:0: C0116: Missing function or method docstring (missing-function-docstring)
+rpn.py:61:33: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:64:11: C0103: Variable name "U" doesn't conform to snake_case naming style (invalid-name)
+rpn.py:74:30: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:80:26: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:82:26: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:88:26: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:98:27: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:101:26: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:102:22: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:105:26: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:106:23: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:109:26: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:111:26: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:113:26: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:114:23: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:117:26: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:119:26: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:120:63: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:125:21: C0321: More than one statement on a single line (multiple-statements)
+rpn.py:55:0: R0912: Too many branches (32/12) (too-many-branches)
+rpn.py:55:0: R0915: Too many statements (92/50) (too-many-statements)
+rpn.py:129:0: C0116: Missing function or method docstring (missing-function-docstring)
+rpn.py:134:40: C0321: More than one statement on a single line (multiple-statements)
+
+-----------------------------------
+Your code has been rated at 7.70/10

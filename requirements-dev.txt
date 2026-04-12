@@ -1,0 +1,6 @@
+# Prerrequisitos para pruebas y metricas (IS2 - practico RPN)
+coverage>=7.0
+multimetric>=2.0
+pylint>=3.0
+black>=24.0
+ruff>=0.4.0
