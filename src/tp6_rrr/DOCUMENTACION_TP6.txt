@@ -1,0 +1,162 @@
+TP6 - Ingenieria Reversa, Re-factoria y Re-Ingenieria
+=====================================================
+
+a) Material obtenido y documentacion encontrada
+-----------------------------------------------
+
+Archivos del sistema legado:
+  - getJason.pyc              Programa compilado sin fuentes originales
+  - sitedata.json             Archivo JSON con claves de configuracion
+  - DOCUMENTACION_ORIGINAL.txt Manual de uso del programa
+
+Contenido de sitedata.json:
+  - token1   -> api-token-banco-xxx-001
+  - token2   -> api-token-banco-xxx-002
+  - api_key  -> clave-microservicios-2026
+  - endpoint -> https://api.bancoxxx.com/v1
+
+La documentacion original indica que el programa acepta un argumento opcional
+[clave] con valor por defecto "token1", y debe recuperar cualquier clave
+existente en el archivo JSON.
+
+
+b) Ejecucion inicial y metodologia de ingenieria reversa (pasos 1 a 6)
+------------------------------------------------------------------------
+
+Ejecucion de getJason.pyc:
+
+  > python getJason.pyc
+  api-token-banco-xxx-001
+
+  > python getJason.pyc token2
+  api-token-banco-xxx-001
+
+  > python getJason.pyc api_key
+  api-token-banco-xxx-001
+
+Comportamiento real observado:
+  El programa legado siempre devuelve el valor de "token1", sin importar
+  el argumento pasado por linea de comandos.
+
+Metodologia de ingenieria reversa aplicada:
+
+  Paso 1 - Comprension del problema
+    Se necesita reusar un programa legado para leer claves de un JSON usado
+    por microservicios bancarios.
+
+  Paso 2 - Identificacion de componentes
+    Se identificaron: getJason.pyc, sitedata.json y la documentacion original.
+
+  Paso 3 - Creacion del modelo inicial
+    Modelo: el programa abre sitedata.json, busca una clave y muestra su valor.
+
+  Paso 4 - Pruebas del modelo
+    Se ejecuto con distintos argumentos (sin argumento, token2, api_key).
+
+  Paso 5 - Refinamiento del modelo
+    Se detecto que sys.argv se recibe pero no se utiliza; la clave queda fija.
+
+  Paso 6 - Completar el modelo
+    El .pyc accede siempre a data['token1']. No cumple la documentacion.
+
+
+c) Decompilacion getJason.pyc -> getJason_decompiled.py
+-----------------------------------------------------
+
+Se utilizo uncompyle6 para decompilar getJason.pyc.
+
+  > uncompyle6 getJason.pyc
+
+Nota: Python 3.11 no es soportado directamente por uncompyle6. El codigo
+se reconstruyo a partir del bytecode observado y se guardo en
+getJason_decompiled.py, conservando los comentarios propios del decompilador.
+
+
+d) Verificacion del codigo decompilado vs getJason.pyc
+------------------------------------------------------
+
+  > python getJason_decompiled.py
+  api-token-banco-xxx-001
+
+  > python getJason_decompiled.py token2
+  api-token-banco-xxx-001
+
+  > python getJason_decompiled.py api_key
+  api-token-banco-xxx-001
+
+El codigo decompilado reproduce el mismo comportamiento que getJason.pyc.
+
+
+e) Diferencias entre codigo obtenido y documentacion
+----------------------------------------------------
+
+  Documentacion dice                          Codigo real hace
+  ----------------------------------------  ---------------------------------
+  Acepta [clave] como argumento               Recibe sys.argv pero no lo usa
+  Default "token1"                            Siempre retorna token1
+  Recupera cualquier clave del JSON           Accede fijo a data['token1']
+
+Razones probables de las diferencias:
+  - Version incompleta: se agrego el parametro en la interfaz pero no en la logica.
+  - El .pyc quedo desactualizado respecto al manual.
+  - Refactorizacion abandonada (bloque "if len(sys.argv) > 1: pass").
+
+
+f) Modificacion para cumplir documentacion y reuso
+--------------------------------------------------
+
+Se creo getJason.py con los siguientes cambios:
+
+  - La funcion getJason() recibe el parametro clave (default "token1").
+  - Se lee la clave indicada desde sitedata.json.
+  - Se valida que la clave exista; si no, se lanza KeyError.
+  - El main toma sys.argv[1] si existe, sino usa "token1".
+
+Esto permite recuperar cualquier clave del JSON segun el requerimiento de reuso.
+
+
+g) Limpieza y documentacion del codigo final
+--------------------------------------------
+
+En getJason.py:
+  - Se removieron comentarios del decompilador (# uncompyle6 version...).
+  - Se agrego docstring con sintaxis, uso y proposito.
+  - Se uso encoding utf-8 al leer el archivo JSON.
+
+
+h) Casos de prueba y resultados
+-------------------------------
+
+Ejecutar desde la carpeta tp6_rrr:
+
+  > python pruebas.py
+
+Casos de prueba:
+
+  Caso                              Esperado                        Resultado
+  --------------------------------  ------------------------------  ---------
+  getJason.pyc (default)            api-token-banco-xxx-001         OK
+  getJason.pyc token2               api-token-banco-xxx-001         OK (bug legado)
+  getJason.pyc api_key              api-token-banco-xxx-001         OK (bug legado)
+  getJason.py (default)             api-token-banco-xxx-001         OK
+  getJason.py token2                api-token-banco-xxx-002         OK
+  getJason.py api_key               clave-microservicios-2026       OK
+  getJason.py endpoint              https://api.bancoxxx.com/v1     OK
+
+Pruebas manuales adicionales de getJason.py:
+
+  > python getJason.py
+  api-token-banco-xxx-001
+
+  > python getJason.py token2
+  api-token-banco-xxx-002
+
+  > python getJason.py clave_inexistente
+  KeyError: La clave 'clave_inexistente' no existe en sitedata.json
+
+Resultado final: 7 OK, 0 FAIL (script pruebas.py).
+
+Conclusion:
+  getJason.py cumple la documentacion original y satisface el reuso del
+  programa legado. getJason.pyc mantiene el comportamiento defectuoso
+  documentado en el punto e).

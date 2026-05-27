@@ -1,0 +1,43 @@
+================================================================================
+  getJason - Documentacion original del sistema legado (Banco XXX)
+================================================================================
+
+DESCRIPCION
+-----------
+Programa de linea de comandos para recuperar valores del archivo sitedata.json
+utilizado por los microservicios bancarios del Banco XXX.
+
+SINTAXIS
+--------
+  python getJason.py [clave]
+
+PARAMETROS
+----------
+  clave   Nombre de la clave a recuperar del JSON.
+          Valor por defecto: "token1"
+
+EJEMPLOS
+--------
+  python getJason.py
+      Recupera el valor de "token1".
+
+  python getJason.py token2
+      Recupera el valor de "token2".
+
+  python getJason.py api_key
+      Recupera el valor de "api_key".
+
+ARCHIVO DE DATOS
+----------------
+  sitedata.json   Archivo JSON con las claves de configuracion del sitio.
+
+SALIDA
+------
+  Imprime en pantalla el valor asociado a la clave solicitada.
+
+NOTAS
+-----
+  El programa fue compilado como getJason.pyc para despliegue en entornos
+  donde no se requiere el codigo fuente.
+
+================================================================================
