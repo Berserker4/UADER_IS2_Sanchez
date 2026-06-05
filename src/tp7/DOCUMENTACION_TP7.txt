@@ -1,0 +1,67 @@
+TP7 - Ingenieria Reversa, Re-factoria y Re-Ingenieria (continuacion getJason)
+=============================================================================
+
+a) Intervencion con programacion orientada a objetos
+--------------------------------------------------
+El programa procedural de TP6 se transformo en clases con responsabilidades
+definidas:
+  - LectorJson (ABC)         interfaz abstracta
+  - LectorLegado             implementacion compatible con TP6
+  - GetJasonSingleton        implementacion refactorizada
+  - ErrorPrograma            errores controlados del dominio
+
+b) Patron Singleton
+-------------------
+La clase GetJasonSingleton garantiza una unica instancia mediante __new__.
+La carga de sitedata.json se realiza una sola vez y se reutiliza en memoria.
+
+c) Ejecucion robusta desde linea de comandos
+---------------------------------------------
+El modulo getJason.py valida argumentos antes de ejecutar. Toda excepcion se
+captura en main() y termina con codigo de salida 1 y mensaje en stderr, sin
+propagar errores del sistema al usuario.
+
+d) Branching by abstraction
+---------------------------
+La funcion crear_lector() en reader.py selecciona la rama:
+  - usar_singleton=True  -> GetJasonSingleton (por defecto)
+  - usar_singleton=False -> LectorLegado (flag --legacy en CLI)
+
+Ambas ramas implementan LectorJson, permitiendo converger sin romper clientes.
+
+e) Comentarios y copyright
+--------------------------
+Caratula en getJason.py:
+  copyright UADER-FCyT-IS2 (c) 2024 todos los derechos reservados.
+
+f) Validacion de argumentos
+---------------------------
+Errores controlados (ErrorPrograma) para:
+  - opciones desconocidas
+  - demasiados argumentos
+  - clave con caracteres invalidos
+  - clave inexistente en JSON
+  - archivo JSON ausente o invalido
+
+g) Version del programa
+-----------------------
+  python getJason.py -v
+  python getJason.py --version
+Salida: getJason version 1.1
+
+h) Analisis estatico pylint
+---------------------------
+Ejecutar desde tp7:
+  pylint getJason.py reader.py
+
+Resultado obtenido: 10.00/10 (objetivo >= 8.0 cumplido).
+
+Correcciones aplicadas:
+  - Uso de pathlib en lugar de os.path
+  - Inicializacion correcta del Singleton en __new__ y __init__
+  - Clase abstracta con metodos de contrato completos
+  - Configuracion .pylintrc para falsos positivos del nombre getJason
+
+Casos de prueba:
+  python pruebas.py
+  Resultado: 11 OK, 0 FAIL
