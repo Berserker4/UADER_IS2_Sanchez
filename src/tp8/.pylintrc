@@ -1,0 +1,10 @@
+[MASTER]
+ignore=CVS
+
+[MESSAGES CONTROL]
+disable=
+    invalid-name,
+    no-name-in-module
+
+[FORMAT]
+max-line-length=100

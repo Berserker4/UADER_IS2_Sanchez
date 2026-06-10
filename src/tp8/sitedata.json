@@ -1,0 +1,6 @@
+{
+  "token1": "api-token-banco-xxx-001",
+  "token2": "api-token-banco-xxx-002",
+  "api_key": "clave-microservicios-2026",
+  "endpoint": "https://api.bancoxxx.com/v1"
+}

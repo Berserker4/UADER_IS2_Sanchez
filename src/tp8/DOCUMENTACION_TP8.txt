@@ -1,0 +1,59 @@
+TP8 - Ingenieria Reversa, Re-factoria y Re-Ingenieria (re-ingenieria de pagos)
+================================================================================
+
+Contexto
+--------
+Se re-ingenio el sistema getJason (TP6/TP7) integrandolo en un modulo de pagos
+automatizado que selecciona la cuenta bancaria segun saldo y balanceo alternado.
+
+a) Proceso anterior
+-------------------
+Un empleado elegia manualmente el banco (token) para liberar cada pago.
+
+b) Proceso automatizado
+-----------------------
+La decision se automatiza: se verifica saldo suficiente y los pagos se distribuyen
+de forma balanceada entre cuentas.
+
+c) Integracion con GetJasonSingleton
+------------------------------------
+La clase SelectorCuenta usa GetJasonSingleton para resolver token -> clave API
+desde sitedata.json al ejecutar cada pago.
+
+d) Patron Command - dos cuentas
+-------------------------------
+SistemaPagos controla:
+  - token1: saldo inicial $1000
+  - token2: saldo inicial $2000
+
+ComandoPago encapsula cada solicitud (numero de pedido, monto).
+
+e) Enrutamiento y listado con Iterator
+--------------------------------------
+Pagos de $500 alternados entre cuentas con saldo. Salida por pago:
+  numero de pedido, token utilizado, monto.
+
+listar_pagos() usa IteradorPagos para mostrar el historial cronologico.
+
+f) Version
+----------
+getJason version 1.2
+
+g) Documentacion
+----------------
+Modulos documentados con docstrings:
+  - reader.py    Singleton getJason
+  - getJason.py  CLI version 1.2
+  - pagos.py     Sistema de pagos (Command + Iterator)
+
+h) Pylint
+---------
+Ejecutar:
+  pylint getJason.py reader.py pagos.py
+
+Objetivo: puntaje >= 8.0
+Resultado obtenido: 9.68/10
+
+Pruebas:
+  python pagos.py
+  python pruebas.py
