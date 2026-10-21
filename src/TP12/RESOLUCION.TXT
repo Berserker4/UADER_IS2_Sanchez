@@ -1,0 +1,12 @@
+### TP12 — Sistemas Embebidos
+
+desarrollo: se configuró el pulsador como entrada digital y el potenciómetro como entrada analógica. Al presionar el pulsador se obtiene una lectura del potenciómetro, que se muestra mediante la comunicación serie. Cuando el valor leído es menor o igual al umbral establecido, el LED integrado permanece encendido. Si se supera el umbral, el LED parpadea.
+
+Pruebas realizadas:
+- Prueba inicial con un umbral del 50 % y un intervalo de parpadeo de 500 ms.
+- Modificación del intervalo de parpadeo a 5 segundos.
+- Modificación del intervalo de parpadeo a 1 segundo.
+- Modificación del umbral de activación al 25 % del rango analógico.
+
+Conclusión: el programa permite controlar el LED integrado a partir de la lectura analógica de un potenciómetro y la acción de un pulsador. Las modificaciones de los parámetros permiten verificar distintos intervalos de parpadeo y diferentes umbrales de activación.
+

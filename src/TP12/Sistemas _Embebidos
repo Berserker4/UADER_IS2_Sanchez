@@ -1,0 +1,64 @@
+
+/*
+  TP12 - Sistemas Embebidos
+  Pulsador: pin 2
+  Potenciómetro: A0
+  LED integrado: LED_BUILTIN
+*/
+
+#define BUTTON 2
+#define POT A0
+#define BAUD 9600
+
+#define BLINK_INTERVAL 500
+
+#define UMBRAL 512
+
+unsigned long lastBlink = 0;
+bool ledState = LOW;
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(BUTTON, INPUT_PULLUP);
+  pinMode(POT, INPUT);
+
+  Serial.begin(BAUD);
+  Serial.println("Kernel Arduino inicializando");
+
+  digitalWrite(LED_BUILTIN, LOW);
+}
+
+void loop() {
+  bool presionado = (digitalRead(BUTTON) == LOW);
+
+  if (presionado) {
+    int valor = analogRead(POT);
+
+    Serial.print("Valor del potenciometro: ");
+    Serial.println(valor);
+
+    if (valor <= UMBRAL) {
+      
+      ledState = HIGH;
+      digitalWrite(LED_BUILTIN, HIGH);
+    } else {
+      
+      parpadear();
+    }
+  } else {
+    
+    parpadear();
+  }
+
+  delay(500);
+}
+
+void parpadear() {
+  unsigned long ahora = millis();
+
+  if (ahora - lastBlink >= BLINK_INTERVAL) {
+    lastBlink = ahora;
+    ledState = !ledState;
+    digitalWrite(LED_BUILTIN, ledState);
+  }
+}
